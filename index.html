@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Valentine Letter</title>
+    <title>Valentine Letter</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -42,6 +42,18 @@
             resize: vertical;
             padding: 10px;
             font-family: 'Comic Sans MS', cursive;
+            color: #333; /* Ensure text is visible */
+            background: transparent; /* Make background transparent */
+        }
+
+        /* Fix for view mode textarea */
+        .view-mode .letter textarea {
+            color: #333 !important; /* Force text color */
+            background: transparent !important; /* Force transparent background */
+            pointer-events: none; /* Prevent editing */
+            resize: none; /* Prevent resizing */
+            outline: none; /* Remove outline */
+            height: auto; /* Adjust height to content */
         }
 
         .polaroid-container {
@@ -56,18 +68,8 @@
             padding: 15px 15px 40px 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
             transform: rotate(-2deg);
-            transition: transform 0.3s ease;
-            position: relative;
             width: 220px;
-        }
-
-        .polaroid:nth-child(even) {
-            transform: rotate(3deg);
-        }
-
-        .polaroid:hover {
-            transform: scale(1.05) rotate(0);
-            z-index: 1;
+            margin-bottom: 20px;
         }
 
         .polaroid img {
@@ -83,13 +85,6 @@
             font-family: 'Comic Sans MS', cursive;
         }
 
-        .buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
         button {
             padding: 10px 20px;
             border: none;
@@ -98,104 +93,41 @@
             color: white;
             cursor: pointer;
             font-size: 16px;
-            transition: background 0.3s ease;
+            margin: 10px;
         }
 
         button:hover {
             background: #ff3333;
         }
 
-        .delete-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #ff4d4d;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .polaroid:hover .delete-btn {
-            opacity: 1;
-        }
-
-        .view-mode .delete-btn,
-        .view-mode button:not(.switch-mode),
-        .view-mode textarea[readonly] {
-            display: none;
-        }
-
         #uploadInput {
             display: none;
         }
 
-        .hearts {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
+        .buttons {
+            text-align: center;
+            margin: 20px 0;
         }
 
-        .heart {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #ff4d4d;
-            transform: rotate(45deg);
-            animation: heartFloat 4s ease-in infinite;
-            opacity: 0;
+        .view-mode .buttons {
+            display: none;
         }
 
-        .heart::before,
-        .heart::after {
-            content: '';
-            width: 20px;
-            height: 20px;
-            background: #ff4d4d;
-            border-radius: 50%;
-            position: absolute;
-        }
-
-        .heart::before {
-            top: -10px;
-            left: 0;
-        }
-
-        .heart::after {
-            top: 0;
-            left: -10px;
-        }
-
-        @keyframes heartFloat {
-            0% {
-                transform: rotate(45deg) translateY(0) scale(0);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: rotate(45deg) translateY(-100vh) scale(1);
-                opacity: 0;
-            }
+        /* Mode indicator */
+        .mode-indicator {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ff4d4d;
         }
     </style>
 </head>
 <body>
-    <div class="hearts" id="hearts"></div>
     <div class="container">
         <div class="header">
             <h1>💌 My Valentine Letter 💌</h1>
-            <button class="switch-mode" onclick="toggleMode()">Switch to View Mode</button>
+            <button onclick="toggleMode()" id="modeButton">Switch to View Mode</button>
+            <div class="mode-indicator" id="modeIndicator"></div>
         </div>
 
         <div class="letter">
@@ -203,8 +135,8 @@
         </div>
 
         <div class="buttons">
-            <button onclick="document.getElementById('uploadInput').click()">Add Memory</button>
-            <input type="file" id="uploadInput" accept="image/*" onchange="addPolaroid(event)" multiple>
+            <button onclick="document.getElementById('uploadInput').click()">Add Photo</button>
+            <input type="file" id="uploadInput" accept="image/*" onchange="addPhoto(event)">
         </div>
 
         <div class="polaroid-container" id="polaroidContainer"></div>
@@ -212,23 +144,30 @@
 
     <script>
         let isViewMode = false;
-        const memories = [];
 
         function toggleMode() {
             isViewMode = !isViewMode;
             document.body.classList.toggle('view-mode');
             const textarea = document.getElementById('letterText');
             textarea.readOnly = isViewMode;
-            const btn = document.querySelector('.switch-mode');
-            btn.textContent = isViewMode ? 'Switch to Edit Mode' : 'Switch to View Mode';
+            
+            // Update button text and mode indicator
+            const modeButton = document.getElementById('modeButton');
+            const modeIndicator = document.getElementById('modeIndicator');
+            
+            if (isViewMode) {
+                modeButton.textContent = 'Switch to Edit Mode';
+                modeIndicator.textContent = '👀 View Mode - Content is Read Only';
+            } else {
+                modeButton.textContent = 'Switch to View Mode';
+                modeIndicator.textContent = '✏ Edit Mode - You can make changes';
+            }
         }
 
-        function addPolaroid(event) {
-            const files = event.target.files;
-            
-            for (let file of files) {
+        function addPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
                 const reader = new FileReader();
-                
                 reader.onload = function(e) {
                     const polaroid = document.createElement('div');
                     polaroid.className = 'polaroid';
@@ -237,72 +176,25 @@
                     img.src = e.target.result;
                     
                     const caption = document.createElement('p');
-                    caption.contentEditable = true;
+                    caption.contentEditable = !isViewMode;
                     caption.textContent = 'Our Memory ❤';
                     
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.className = 'delete-btn';
-                    deleteBtn.innerHTML = '×';
-                    deleteBtn.onclick = function() {
-                        polaroid.remove();
-                    };
-                    
-                    polaroid.appendChild(deleteBtn);
                     polaroid.appendChild(img);
                     polaroid.appendChild(caption);
                     
                     document.getElementById('polaroidContainer').appendChild(polaroid);
-                    memories.push({
-                        src: e.target.result,
-                        caption: 'Our Memory ❤'
-                    });
                 };
-                
                 reader.readAsDataURL(file);
             }
         }
 
-        // Create floating hearts animation
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.getElementById('hearts').appendChild(heart);
-            
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
-        }
-
-        setInterval(createHeart, 300);
-
-        // Save functionality could be added here
-        function saveState() {
-            const state = {
-                letter: document.getElementById('letterText').value,
-                memories: memories
-            };
-            localStorage.setItem('valentineState', JSON.stringify(state));
-        }
-
-        // Load functionality could be added here
-        function loadState() {
-            const state = JSON.parse(localStorage.getItem('valentineState'));
-            if (state) {
-                document.getElementById('letterText').value = state.letter;
-                state.memories.forEach(memory => {
-                    const polaroid = document.createElement('div');
-                    polaroid.className = 'polaroid';
-                    polaroid.innerHTML = `
-                        <button class="delete-btn">×</button>
-                        <img src="${memory.src}">
-                        <p>${memory.caption}</p>
-                    `;
-                    document.getElementById('polaroidContainer').appendChild(polaroid);
-                });
+        // Check URL parameters for view mode
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('mode') === 'view') {
+                toggleMode();
             }
-        }
+        };
     </script>
 </body>
 </html>

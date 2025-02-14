@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To My Nakhro</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>To My Nakhro</h1>
+        <form id="valentineForm">
+            <textarea id="valentineLetter" placeholder="Write your letter here..."></textarea>
+            <input type="file" id="uploadMemory" accept="image/*">
+            <button type="button" onclick="uploadMemory()">Upload Memory</button>
+            <div id="polaroidsContainer"></div>
+            <button type="button" onclick="sendLetter()">Send Letter</button>
+        </form>
+    </div>
+    <div id="floatingHearts"></div>
+    <script src="js/script.js"></script>
+</body>
+</html>

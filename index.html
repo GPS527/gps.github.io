@@ -8,17 +8,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>Valentine's Day Letter</h1>
-        <div class="letter-box">
-            <p contenteditable="true" id="letter">Dear [Name],</p>
-        </div>
-        <div class="upload-box">
-            <label for="upload">Upload Memory:</label>
-            <input type="file" id="upload" multiple>
-        </div>
-        <div id="memory-gallery" class="memory-gallery"></div>
-        <button id="publish">Publish</button>
-        <div id="share-link" class="share-link"></div>
+        <h1>Send a Cute Valentine Letter</h1>
+        <form id="valentineForm">
+            <textarea id="valentineLetter" placeholder="Write your letter here..."></textarea>
+            <input type="file" id="uploadMemory" accept="image/*">
+            <button type="button" onclick="uploadMemory()">Upload Memory</button>
+            <div id="polaroidsContainer"></div>
+            <button type="button" onclick="sendLetter()">Send Letter</button>
+        </form>
     </div>
     <script src="script.js"></script>
 </body>

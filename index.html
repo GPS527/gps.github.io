@@ -3,192 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Love Letter ❤</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Source+Sans+Pro:wght@300;400;600&display=swap');
-
-        body {
-            font-family: 'Source Sans Pro', sans-serif;
-            background: #fff0f5;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-            margin: 0;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        h1.title {
-            font-family: 'Great Vibes', cursive;
-            text-align: center;
-            color: #e91e63;
-            font-size: 3em;
-            margin-bottom: 20px;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 200px;
-            padding: 15px;
-            border: 2px solid #e91e63;
-            border-radius: 10px;
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 1.1em;
-            margin-bottom: 20px;
-            resize: vertical;
-        }
-
-        button {
-            background-color: #e91e63;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-right: 10px;
-        }
-
-        button:hover {
-            background-color: #c2185b;
-            transform: translateY(-2px);
-        }
-
-        .photos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .photo-card img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            object-fit: cover;
-        }
-
-        #shareLink {
-            display: none;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        #shareUrl {
-            width: 70%;
-            padding: 10px;
-            border: 1px solid #e91e63;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-            }
-
-            h1.title {
-                font-size: 2em;
-            }
-        }
-    </style>
+    <title>Valentine Letter</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="title">Valentine's Letter</h1>
-        <textarea id="letterText" placeholder="Dear Valentine, Write your heartfelt message here..."></textarea>
-        <input type="file" id="imageInput" accept="image/*" multiple style="display:none;">
-        <button onclick="document.getElementById('imageInput').click()">Add Photos</button>
-        <button onclick="createShareableLink()">Create Share Link</button>
-        <div id="shareLink">
-            <input type="text" id="shareUrl" readonly>
-            <button onclick="copyShareLink()">Copy Link</button>
+        <h1>Valentine's Day Letter</h1>
+        <div class="letter-box">
+            <p contenteditable="true" id="letter">Dear [Name],</p>
         </div>
-        <div class="photos-grid" id="photosGrid"></div>
+        <div class="upload-box">
+            <label for="upload">Upload Memory:</label>
+            <input type="file" id="upload" multiple>
+        </div>
+        <div id="memory-gallery" class="memory-gallery"></div>
+        <button id="publish">Publish</button>
+        <div id="share-link" class="share-link"></div>
     </div>
-
-    <script>
-        let photos = [];
-
-        // Handle image uploads
-        document.getElementById('imageInput').addEventListener('change', function(e) {
-            const files = e.target.files;
-            for (let file of files) {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        photos.push(e.target.result);
-                        renderPhotos();
-                    };
-                    reader.readAsDataURL(file);
-                }
-            }
-        });
-
-        // Render photos grid
-        function renderPhotos() {
-            const grid = document.getElementById('photosGrid');
-            grid.innerHTML = '';
-            photos.forEach(photo => {
-                const img = document.createElement('img');
-                img.src = photo;
-                grid.appendChild(img);
-            });
-        }
-
-        // Create shareable link
-        function createShareableLink() {
-            const letter = document.getElementById('letterText').value;
-            if (!letter.trim() && photos.length === 0) {
-                alert('Please write a letter or add some photos before creating a share link!');
-                return;
-            }
-
-            const data = {
-                letter: letter,
-                photos: photos
-            };
-
-            const shareUrl = ${window.location.href}?data=${encodeURIComponent(JSON.stringify(data))};
-            document.getElementById('shareUrl').value = shareUrl;
-            document.getElementById('shareLink').style.display = 'block';
-        }
-
-        // Copy share link
-        function copyShareLink() {
-            const shareUrl = document.getElementById('shareUrl');
-            shareUrl.select();
-            document.execCommand('copy');
-            alert('Share link copied! Send it to your Valentine ❤');
-        }
-
-        // Check URL parameters on load
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const data = urlParams.get('data');
-            
-            if (data) {
-                try {
-                    const parsedData = JSON.parse(decodeURIComponent(data));
-                    document.getElementById('letterText').value = parsedData.letter;
-                    photos = parsedData.photos || [];
-                    renderPhotos();
-                    document.getElementById('letterText').readOnly = true;
-                } catch (e) {
-                    console.error('Failed to load shared content');
-                    alert('Invalid link');
-                }
-            }
-        };
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

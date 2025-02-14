@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine Letter</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <title>My Valentine Letter ❤</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:ital@0;1&family=Roboto:wght@300;400&display=swap');
 
         * {
             margin: 0;
@@ -15,113 +15,136 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ffe6e6 0%, #ffb3b3 100%);
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 2rem;
             position: relative;
             overflow-x: hidden;
         }
 
-        .floating-hearts {
+        /* Floating Hearts Animation */
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+
+        .floating-heart {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .heart {
-            position: absolute;
-            font-size: 20px;
-            animation: floatUp 6s linear infinite;
-            opacity: 0;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(-20vh) scale(1);
-                opacity: 0;
-            }
+            color: rgba(233, 30, 99, 0.2);
+            z-index: -1;
+            animation: float 6s infinite ease-in-out;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             position: relative;
-            z-index: 2;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #e91e63, #f48fb1, #e91e63);
         }
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            animation: fadeIn 1.5s ease-out;
+            margin-bottom: 3rem;
+            position: relative;
         }
 
-        .header h1 {
+        .header::after {
+            content: '❤';
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.2); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        h1 {
             font-family: 'Dancing Script', cursive;
-            color: #ff4d6d;
-            font-size: 3.5em;
+            color: #e91e63;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            font-weight: 700;
         }
 
-        .letter {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            transform-style: preserve-3d;
-            transition: transform 0.3s ease;
-            animation: slideInUp 1s ease-out;
+        .letter-content {
+            margin-bottom: 2rem;
+            position: relative;
         }
 
-        .letter:hover {
-            transform: translateY(-5px);
-        }
-
-        .letter textarea {
+        textarea {
             width: 100%;
-            min-height: 200px;
-            border: none;
-            font-size: 18px;
-            line-height: 1.6;
-            resize: vertical;
-            padding: 15px;
+            min-height: 250px;
+            padding: 1.5rem;
+            border: 2px solid #ffcdd2;
+            border-radius: 12px;
             font-family: 'Dancing Script', cursive;
-            color: #333;
-            background: transparent;
+            font-size: 1.4rem;
+            resize: vertical;
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
             outline: none;
+            border-color: #e91e63;
+            box-shadow: 0 0 15px rgba(233, 30, 99, 0.2);
+            transform: translateY(-2px);
         }
 
         .polaroid-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-            padding: 20px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+            padding: 1rem;
         }
 
         .polaroid {
             background: white;
-            padding: 15px 15px 40px 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            padding-bottom: 3rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             transform: rotate(-3deg);
-            width: 250px;
-            transition: all 0.3s ease;
-            animation: zoomIn 0.5s ease-out;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
+            border: 1px solid #f8bbd0;
+        }
+
+        .polaroid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1;
         }
 
         .polaroid:nth-child(even) {
@@ -129,341 +152,283 @@
         }
 
         .polaroid:hover {
-            transform: scale(1.05) rotate(0deg);
-            z-index: 5;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            transform: scale(1.08) rotate(0);
+            z-index: 2;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
 
         .polaroid img {
             width: 100%;
             height: 220px;
             object-fit: cover;
-            margin-bottom: 15px;
-            border-radius: 3px;
+            margin-bottom: 1rem;
+            border: 1px solid #eee;
         }
 
         .polaroid p {
-            text-align: center;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.2em;
+            text-align: center;
+            font-size: 1.2rem;
             color: #333;
+            position: relative;
         }
 
-        .buttons {
-            text-align: center;
-            margin: 30px 0;
-            animation: fadeIn 1s ease-out;
+        .controls {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         button {
-            padding: 12px 25px;
+            padding: 1rem 2rem;
             border: none;
-            border-radius: 25px;
-            background: linear-gradient(135deg, #ff4d6d 0%, #ff8fa3 100%);
-            color: white;
+            border-radius: 50px;
             cursor: pointer;
-            font-size: 16px;
-            margin: 10px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.2);
+            font-family: 'Playfair Display', serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .primary-btn {
+            background: linear-gradient(45deg, #e91e63, #f48fb1);
+            color: white;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+        }
+
+        .secondary-btn {
+            background: linear-gradient(45deg, #f8bbd0, #fce4ec);
+            color: #e91e63;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.1);
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.3);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
         }
 
         .delete-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: white;
+            border: none;
+            border-radius: 50%;
             width: 30px;
             height: 30px;
-            border-radius: 50%;
-            background: rgba(255, 77, 109, 0.9);
-            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            color: #e91e63;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            transition: all 0.3s ease;
         }
 
-        .polaroid:hover .delete-btn {
-            opacity: 1;
+        .delete-btn:hover {
+            background: #e91e63;
+            color: white;
+            transform: rotate(90deg);
         }
 
-        .share-box {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 20px;
-            margin-top: 30px;
-            text-align: center;
-            display: none;
-            animation: slideInUp 0.5s ease-out;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .share-box h3 {
-            color: #ff4d6d;
-            margin-bottom: 20px;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.8em;
-        }
-
-        .share-link {
-            width: 80%;
-            padding: 12px;
-            margin: 10px;
-            border: 2px solid #ff4d6d;
-            border-radius: 10px;
-            font-size: 16px;
-            color: #333;
-            background: white;
-        }
-
-        .success-message {
-            color: #2ecc71;
-            margin-top: 15px;
-            font-size: 16px;
-            display: none;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .view-mode .buttons,
-        .view-mode .delete-btn,
-        .view-mode #editControls {
-            display: none;
-        }
-
-        .view-mode textarea {
-            pointer-events: none;
-            resize: none;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideInUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes zoomIn {
-            from {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* Romantic background patterns */
-        .background-decoration {
-            position: fixed;
-            top: 0;
-            left: 0;
+        #shareLink {
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.1;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            border: 2px solid #ffcdd2;
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
         }
 
-        .background-decoration::before {
-            content: '💝';
-            position: absolute;
-            font-size: 50px;
-            animation: float 6s infinite;
+        #shareLink:focus {
+            outline: none;
+            border-color: #e91e63;
+            box-shadow: 0 0 10px rgba(233, 30, 99, 0.2);
         }
 
-        .background-decoration::after {
-            content: '💌';
-            position: absolute;
-            font-size: 40px;
-            animation: float 8s infinite;
+        .hidden {
+            display: none;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(10px, -10px) rotate(5deg); }
-            50% { transform: translate(0, 15px) rotate(-5deg); }
-            75% { transform: translate(-10px, -5px) rotate(3deg); }
+        #viewMode {
+            background: #e91e63;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .polaroid-container {
+                grid-template-columns: 1fr;
+            }
+
+            button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
-<body id="mainBody">
-    <div class="background-decoration"></div>
-    <div class="floating-hearts" id="floatingHearts"></div>
-    
+<body>
+    <!-- Add floating hearts -->
+    <script>
+        function createFloatingHearts() {
+            const hearts = 15;
+            const icons = ['❤', '💝', '💖', '💗', '💓'];
+            
+            for (let i = 0; i < hearts; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = icons[Math.floor(Math.random() * icons.length)];
+                heart.style.left = ${Math.random() * 100}vw;
+                heart.style.top = ${Math.random() * 100}vh;
+                heart.style.fontSize = ${Math.random() * (30 - 15) + 15}px;
+                heart.style.animationDelay = ${Math.random() * 5}s;
+                heart.style.animationDuration = ${Math.random() * (10 - 6) + 6}s;
+                document.body.appendChild(heart);
+            }
+        }
+    </script>
+
     <div class="container">
         <div class="header">
-            <h1>💌 My Valentine Letter 💌</h1>
+            <h1>My Valentine Letter ❤</h1>
+            <p id="viewMode" class="hidden">Read-only View</p>
         </div>
 
-        <div id="editControls">
-            <div class="buttons">
-                <button onclick="document.getElementById('uploadInput').click()" class="animate_animated animatepulse animate_infinite">Add Photo</button>
-                <button onclick="generateLink()">Create Share Link</button>
-                <input type="file" id="uploadInput" accept="image/*" onchange="addPhoto(event)" style="display: none;">
-            </div>
+        <div class="letter-content">
+            <textarea id="letterText" placeholder="Dear Valentine,&#10;&#10;Write your heartfelt message here..."></textarea>
         </div>
 
-        <div class="letter">
-            <textarea id="letterText" placeholder="Write your heartfelt message here..."></textarea>
+        <div class="controls editor-only">
+            <input type="file" id="imageInput" accept="image/*" style="display: none">
+            <button class="primary-btn" onclick="document.getElementById('imageInput').click()">
+                <i class="fas fa-image"></i> Add Memory
+            </button>
+            <button class="secondary-btn" onclick="generateShareLink()">
+                <i class="fas fa-heart"></i> Share Love
+            </button>
         </div>
 
-        <div class="share-box" id="shareBox">
-            <h3>Share Your Love Letter ❤</h3>
-            <input type="text" class="share-link" id="shareLink" readonly>
-            <button onclick="copyLink()">Copy Link</button>
-            <div class="success-message" id="successMessage">Link copied with love! ❤</div>
-        </div>
+        <input type="text" id="shareLink" class="hidden" readonly>
 
         <div class="polaroid-container" id="polaroidContainer"></div>
     </div>
 
     <script>
-        // Create floating hearts
-        function createFloatingHearts() {
-            const container = document.getElementById('floatingHearts');
-            const heartEmojis = ['❤', '💝', '💖', '💗', '💓'];
+        // Create floating hearts when page loads
+        createFloatingHearts();
+
+        let isViewMode = false;
+        let memories = [];
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const data = urlParams.get('data');
             
-            setInterval(() => {
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-                container.appendChild(heart);
-                
-                setTimeout(() => {
-                    heart.remove();
-                }, 6000);
-            }, 300);
-        }
-
-        // Check if we're in view mode
-        const urlParams = new URLSearchParams(window.location.search);
-        const viewData = urlParams.get('data');
-        
-        if (viewData) {
-            try {
-                const decodedData = JSON.parse(atob(viewData));
-                document.getElementById('mainBody').classList.add('view-mode');
-                document.getElementById('letterText').value = decodedData.letter;
-                
-                if (decodedData.photos) {
-                    decodedData.photos.forEach(photo => {
-                        displayPhoto(photo.image, photo.caption, true);
-                    });
+            if (data) {
+                try {
+                    const decodedData = JSON.parse(atob(data));
+                    loadSharedContent(decodedData);
+                    isViewMode = true;
+                    setupViewMode();
+                } catch (e) {
+                    console.error('Failed to load shared content');
                 }
-            } catch (e) {
-                alert('Invalid link!');
             }
+        };
+
+        function setupViewMode() {
+            document.querySelectorAll('.editor-only').forEach(el => el.style.display = 'none');
+            document.getElementById('viewMode').classList.remove('hidden');
+            document.getElementById('letterText').readOnly = true;
+            document.querySelectorAll('.delete-btn').forEach(btn => btn.style.display = 'none');
         }
 
-        let photos = [];
+        function loadSharedContent(data) {
+            document.getElementById('letterText').value = data.letter || '';
+            memories = data.memories || [];
+            renderPolaroids();
+        }
 
-        function addPhoto(event) {
-            const file = event.target.files[0];
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const photoData = {
+                    memories.push({
                         image: e.target.result,
-                        caption: 'Our Memory ❤'
-                    };
-                    photos.push(photoData);
-                    displayPhoto(photoData.image, photoData.caption);
+                        caption: 'Our Special Memory ❤'
+                    });
+                    renderPolaroids();
                 };
                 reader.readAsDataURL(file);
             }
+        });
+
+        function deleteMemory(index) {
+            memories.splice(index, 1);
+            renderPolaroids();
         }
 
-        function displayPhoto(imageSrc, caption, isViewMode = false) {
-            const polaroid = document.createElement('div');
-            polaroid.className = 'polaroid animate_animated animate_zoomIn';
+        function renderPolaroids() {
+            const container = document.getElementById('polaroidContainer');
+            container.innerHTML = '';
             
-            const img = document.createElement('img');
-            img.src = imageSrc;
-            
-            const p = document.createElement('p');
-            p.textContent = caption;
-            
-            if (!isViewMode) {
-                const deleteBtn = document.createElement('button');
-                deleteBtn.className = 'delete-btn';
-                deleteBtn.innerHTML = '×';
-                deleteBtn.onclick = () => {
-                    polaroid.classList.add('animate_animated', 'animate_zoomOut');
-                    setTimeout(() => polaroid.remove(), 500);
-                };
-                polaroid.appendChild(deleteBtn);
-            }
-            
-            polaroid.appendChild(img);
-            polaroid.appendChild(p);
-            document.getElementById('polaroidContainer').appendChild(polaroid);
+            memories.forEach((memory, index) => {
+                const polaroid = document.createElement('div');
+                polaroid.className = 'polaroid';
+                polaroid.innerHTML = `
+                    <img src="${memory.image}" alt="Memory">
+                    <p>${memory.caption}</p>
+                    ${!isViewMode ? `<button class="delete-btn" onclick="deleteMemory(${index})">
+                        <i class="fas fa-times"></i>
+                    </button>` : ''}
+                `;
+                container.appendChild(polaroid);
+            });
         }
 
-        function generateLink() {
-            const letter = document.getElementById('letterText').value;
-            
-            if (!letter.trim()) {
-                alert('Please write your letter before generating a share link! ❤');
-                return;
-            }
-
+        function generateShareLink() {
             const data = {
-                letter: letter,
-                photos: photos
+                letter: document.getElementById('letterText').value,
+                memories: memories
             };
 
-            const encodedData = btoa(JSON.stringify(data));
-            const shareUrl = ${window.location.href.split('?')[0]}?data=${encodedData};
+            const encoded = btoa(JSON.stringify(data));
+            const shareUrl = ${window.location.href.split('?')[0]}?data=${encoded};
             
-            const shareBox = document.getElementById('shareBox');
-            const shareLink = document.getElementById('shareLink');
-            shareBox.style.display = 'block';
-            shareLink.value = shareUrl;
-            
-            // Add animation to share box
-            shareBox.classList.add('animate_animated', 'animate_fadeInUp');
-        }
-
-        function copyLink() {
-            const shareLink = document.getElementById('shareLink');
-            shareLink.select();
+            const shareLinkInput = document.getElementById('shareLink');
+            shareLinkInput.value = shareUrl;
+            shareLinkInput.classList.remove('hidden');
+            shareLinkInput.select();
             document.execCommand('copy');
-            
-            const successMessage = document.getElementById('successMessage');
-            successMessage.style.display = 'block';
-            successMessage.classList.add('animate_animated', 'animate_fadeIn');
-            
-            setTimeout(() => {
-                successMessage.classList.add('animate__fadeOut');
-                setTimeout(() => {
-                    successMessage.style.display = 'none';
-                    successMessage.classList.remove('animate_fadeIn', 'animate_fadeOut');
-                }, 1000);
-            }, 2000);
+            alert('Share link copied to clipboard! Send it to your Valentine ❤');
         }
-
-        // Initialize animations
-        createFloatingHearts();
     </script>
 </body>
 </html>

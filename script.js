@@ -20,7 +20,10 @@ function uploadMemory() {
 
 function deleteMemory(button) {
     const polaroid = button.parentElement;
-    polaroid.remove();
+    polaroid.classList.add('fadeOut');
+    setTimeout(() => {
+        polaroid.remove();
+    }, 1000); // Matches animation duration
 }
 
 function sendLetter() {
@@ -36,3 +39,19 @@ function sendLetter() {
 
     alert('Your Valentine letter has been sent!');
 }
+
+// Add floating hearts
+function createFloatingHearts() {
+    const heartContainer = document.getElementById('floatingHearts');
+
+    setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = `${Math.random() * 100}%`;
+        heart.style.animationDuration = `${Math.random() * 3 + 3}s`; // Random duration between 3s and 6s
+        heartContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000); // Match the duration of the animation
+    }, 500); // Create a new heart every 0.5s
+}
+
+createFloatingHearts();
